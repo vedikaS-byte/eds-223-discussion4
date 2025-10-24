@@ -55,12 +55,45 @@ rclass <- matrix(c(
 
 rclass_elev <- classify(dem, rcl = rclass)
 rclass_elev
+
+## Find the mean per class 
+# Rename levels in rclass_elev for naming convention 
+levels(rclass_elev) <- tibble::tibble(id = 1:3, cats = c("Low", "Medium", "High"))
+levels(rclass_elev) # Double check
+
+# Find mean per class using zonal
+zonal(dem, rclass_elev, fun = "mean") %>% kableExtra::kable() %>% kableExtra::kable_styling()
+
 ```
 
 
 ## 3. Explore NDVI and NDWI at Zion National Park
 
+Landsat 8 bands 2-5 correspond to bands 1-4 for this raster. 
+First, correct the scale across all grid cells and then apply the following functions at each grid cell. 
 
+```{r}
+# Correct scale across ALL... need global operations
+?global
+rescale <- function(x) { 
+  0.0000275*(x)
+  # landsat 1
+  
+  # landast 2
+  # landsat 3 
+  # landsat 4
+  }
+
+global(landsat, rescale)
+
+
+```
+
+
+- Calculate the Normalized Difference Vegetation Index (NDVI) at Zion National Park
+- Calculate the Normalized Difference Water Index (NDWI) at Zion National Park
+- Find a correlation between NDVI and NDWI at Zion National Park
+Hint: Explore the terra package to find a function that can help achieve this!
 
 
 
