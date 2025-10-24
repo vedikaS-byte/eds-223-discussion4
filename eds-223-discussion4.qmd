@@ -7,6 +7,7 @@ format: html
 
 Import all neccessary data packages: 
 ```{r}
+#| include: False
 library(tidyverse)
 library(spData)
 library(spDataLarge)
@@ -14,6 +15,51 @@ library(sf)
 library(stars)
 library(terra)
 ```
+
+```{r}
+dem <- terra::rast(system.file("raster/dem.tif", package = "spDataLarge"))
+landsat <- terra::rast(system.file("raster/landsat.tif", package = "spDataLarge"))
+srtm <- terra::rast(system.file("raster/srtm.tif", package = "spDataLarge"))
+```
+
+You will be working with the following datasets:
+
+- Digital elevation model (DEM) of Mt. Mongón, Perú, obtained from spDataLarge
+- Landsat image of Zion National Park, obtained from spDataLarge
+- SRTM elevation of Zion National Park, obtained from spDataLarge
+
+## 2. Explore elevation at Mt. Mongón, Perú
+Make a boxplot and histogram of elevation at Mt. Mongón, Perú
+```{r}
+#| warning: false
+#dem
+dem %>%st_drop_geometry() %>% boxplot(xlab = "Elevation (m)", col = "lightpink")
+dem %>% st_drop_geometry() %>% hist(xlab = "Elevation (m)", col = "lightblue", bins = 40) 
+#title("Distribution of Elevation (m) at Mt. Mongón, Perú")
+dem
+```
+
+
+Reclassify dem and compute the mean for the three classes:
+- Low, where elevation is less than 300
+- Medium
+- High, where elevation is greater than 500
+
+```{r}
+rclass <- matrix(c(
+            -Inf, 300, 1, # < 300
+            300, 500, 2, # Medium
+            500, Inf, 3 # > 500
+), ncol = 3, byrow = T)
+
+
+rclass_elev <- classify(dem, rcl = rclass)
+rclass_elev
+```
+
+
+## 3. Explore NDVI and NDWI at Zion National Park
+
 
 
 
