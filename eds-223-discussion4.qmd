@@ -1,0 +1,20 @@
+---
+title: "eds-223-discussion4"
+format: html
+---
+
+# Week 4: Discussion Section: Practice raster manipulations
+
+Import all neccessary data packages: 
+```{r}
+library(tidyverse)
+library(spData)
+library(spDataLarge)
+library(sf)
+library(stars)
+library(terra)
+```
+
+
+
+
